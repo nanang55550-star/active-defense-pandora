@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANDORA - Active Defense Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <h1>💀 PANDORA</h1>
+                <span class="version">ACTIVE DEFENSE SYSTEM</span>
+            </div>
+            <div class="status">
+                <span id="connection-status" class="online">🟢 ONLINE</span>
+                <span id="uptime">Uptime: 00:00:00</span>
+            </div>
+        </header>
+        
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card critical">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-attacks">0</div>
+                    <div class="stat-label">Total Attacks</div>
+                </div>
+            </div>
+            
+            <div class="stat-card high">
+                <div class="stat-icon">💀</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="critical-threats">0</div>
+                    <div class="stat-label">Critical Threats</div>
+                </div>
+            </div>
+            
+            <div class="stat-card medium">
+                <div class="stat-icon">🧪</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="poisons-sent">0</div>
+                    <div class="stat-label">Poisons Sent</div>
+                </div>
+            </div>
+            
+            <div class="stat-card low">
+                <div class="stat-icon">📡</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="broadcasts-sent">0</div>
+                    <div class="stat-label">Broadcasts</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row -->
+        <div class="charts-row">
+            <div class="chart-container">
+                <h3>Threat Timeline</h3>
+                <canvas id="threatChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Threat Levels</h3>
+                <canvas id="levelChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-grid">
+            <!-- Recent Attacks Table -->
+            <div class="table-container">
+                <h3>Recent Attacks</h3>
+                <table id="attacks-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>IP</th>
+                            <th>JA3</th>
+                            <th>Score</th>
+                            <th>Level</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attacks-body">
+                        <!-- Data from API -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Top Attackers -->
+            <div class="table-container">
+                <h3>Top Attackers</h3>
+                <table id="attackers-table">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Attacks</th>
+                            <th>Risk Score</th>
+                            <th>Last Seen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attackers-body">
+                        <!-- Data from API -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Blacklist Section -->
+        <div class="blacklist-section">
+            <h3>Blacklisted IPs</h3>
+            <div class="blacklist-grid" id="blacklist-grid">
+                <!-- IP cards will be inserted here -->
+            </div>
+        </div>
+        
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <h3>🛠️ Control Panel</h3>
+            <div class="control-buttons">
+                <button onclick="testBroadcast()">📡 Test Broadcast</button>
+                <button onclick="refreshData()">🔄 Refresh</button>
+                <button onclick="exportLogs()">📥 Export Logs</button>
+            </div>
+            
+            <div class="manual-block">
+                <input type="text" id="block-ip" placeholder="Enter IP to block">
+                <button onclick="blockIP()">⛔ Block IP</button>
+            </div>
+            
+            <div class="manual-poison">
+                <input type="text" id="poison-ip" placeholder="Enter IP to poison">
+                <select id="poison-type">
+                    <option value="random">Random Poison</option>
+                    <option value="cobol">COBOL Bomb</option>
+                    <option value="python">Python Trap</option>
+                    <option value="bash">Bash Bomb</option>
+                </select>
+                <button onclick="sendPoison()">🧪 Send Poison</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
