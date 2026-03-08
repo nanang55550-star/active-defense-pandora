@@ -1,0 +1,183 @@
+# Active Defense Pandora - Configuration File
+# Author: @nanang55550-star
+
+# ========================================
+# GATEWAY SETTINGS
+# ========================================
+gateway:
+  host: "0.0.0.0"
+  port: 8080
+  max_workers: 10
+  buffer_size: 8192
+  timeout: 30
+
+# ========================================
+# DETECTION THRESHOLDS
+# ========================================
+threat_levels:
+  low: 0
+  medium: 30
+  high: 60
+  critical: 80
+
+detection:
+  ja3_blacklist:
+    - "b32309a26951912be7dba376398abc3b"  # Python requests
+    - "3039129e12019446d0a777651a376512"  # curl
+    - "f5973d463d12d46e38abc36713840612"  # Go HTTP
+    - "132b490d1d2938164b391786576d1209"  # Burp Suite
+  
+  payload_patterns:
+    cobol: true
+    sql: true
+    legacy: true
+
+# ========================================
+# POISON SETTINGS
+# ========================================
+poison:
+  enabled: true
+  max_payload_size: 65536  # 64KB
+  delivery_methods:
+    - "base64"
+    - "hex"
+    - "binary"
+    - "raw"
+  
+  poison_types:
+    cobol_infinite: true
+    bash_fork_bomb: true
+    python_memory_killer: true
+    sql_backfire: true
+
+# ========================================
+# BROADCAST SETTINGS
+# ========================================
+broadcast:
+  enabled: true
+  protocol: "http"  # http, https, grpc
+  peer_instances:
+    - "http://instance1.local:8080"
+    - "http://instance2.local:8080"
+    - "https://api.nanang55550-star.repl.co"
+  
+  retry_count: 3
+  timeout: 2
+  broadcast_on_startup: true
+
+# ========================================
+# TELEGRAM BOT
+# ========================================
+telegram:
+  enabled: false
+  token: "YOUR_BOT_TOKEN"
+  chat_id: "YOUR_CHAT_ID"
+  
+  alert_levels:
+    critical: true
+    high: true
+    medium: false
+    low: false
+  
+  format: "markdown"  # markdown, html, text
+
+# ========================================
+# DEEPFAKE VOICE
+# ========================================
+deepfake:
+  enabled: true
+  voice_type: "elevenlabs"  # elevenlabs, gtts, pyttsx3
+  api_key: "YOUR_API_KEY"  # untuk elevenlabs
+  
+  messages:
+    - "Nice try, Nanang is watching you."
+    - "You just stepped into the wrong territory."
+    - "Your IP has been logged and broadcasted."
+    - "Project Pandora sends its regards."
+    - "The Architect knows you're here."
+    - "Your attack has been neutralized."
+    - "We've poisoned your response. Good luck."
+
+# ========================================
+# WEB DASHBOARD
+# ========================================
+dashboard:
+  enabled: true
+  host: "0.0.0.0"
+  port: 5000
+  debug: false
+  refresh_interval: 5  # detik
+  
+  theme: "dark"  # dark, light
+  charts: true
+  realtime_updates: true
+
+# ========================================
+# DATABASE
+# ========================================
+database:
+  path: "data/threat_intel.db"
+  backup_interval: 3600  # detik (1 jam)
+  backup_path: "data/backups/"
+  
+  tables:
+    attacks: true
+    blacklist: true
+    intelligence: true
+
+# ========================================
+# LOGGING
+# ========================================
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "logs/pandora.log"
+  max_size: 10485760  # 10MB
+  backup_count: 5
+  
+  log_attacks: true
+  log_poisons: true
+  log_broadcasts: true
+
+# ========================================
+# PERFORMANCE
+# ========================================
+performance:
+  max_concurrent_attacks: 100
+  queue_size: 1000
+  worker_threads: 4
+  
+  cache_size: 1000
+  cache_ttl: 300  # detik
+
+# ========================================
+# SECURITY
+# ========================================
+security:
+  require_auth: false
+  username: "admin"
+  password_hash: ""  # bcrypt hash
+  
+  allowed_ips: []
+  denied_ips: []
+  
+  rate_limit: 100  # request per menit per IP
+
+# ========================================
+# INTEGRATIONS
+# ========================================
+integrations:
+  ja3_payload_analyzer:
+    enabled: true
+    path: "../ja3-payload-analyzer"
+    auto_sync: true
+  
+  cobol_mainframe:
+    enabled: true
+    host: "localhost"
+    port: 9876
+    timeout: 10
+  
+  neural_dashboard:
+    enabled: false
+    url: "http://localhost:5001"
+    api_key: ""
